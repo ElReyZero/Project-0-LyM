@@ -55,6 +55,8 @@ def checker(f:str) -> bool:
 
 def comparador(listaPal:list, commands:list)->bool:
     for i in range(len(listaPal)):
+        if listaPal[i] not in alfabeto:
+            return False
         try:
             val = int(listaPal[i])
         except:
