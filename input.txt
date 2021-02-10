@@ -1,9 +1,11 @@
 (rotate back)
-(if (not (blocked?)) (walk 1) (nop))
+(if (not (blocked?)) (walk 1) (NOP))
 (block
-(If (not (blocked?)) (walk 1) (nop)))
+(if (not (blocked?)) (walk 1) (NOP)))
 (rotate left)
 (define one 1)
+(define c 2)
+(define p 3)
 (define foo (c p)
 (block
 (drop c)
