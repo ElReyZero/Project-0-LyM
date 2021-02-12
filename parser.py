@@ -2,7 +2,7 @@ alfabeto = ["walk", "rotate", "drop", "free", "pick", "grab", "walkTo", "NOP", "
 comandos = ["walk", "rotate", "drop", "free", "pick", "grab", "walkTo", "NOP", "block", "define", "if"]
 extra = {}
 def parser():
-    file = open("input.txt", "r")
+    file = open(input("Ingrese la ruta del archivo: "), "r")
     f = file.read()
 
     valor = checker(f)
