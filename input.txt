@@ -1,4 +1,4 @@
-(rotate block)
+(rotate back)
 (if (not (blocked?)) (walk 1) (NOP))
 (block
 (if (not (blocked?)) (walk 1) (NOP)))

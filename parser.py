@@ -1,4 +1,5 @@
 alfabeto = ["walk", "rotate", "drop", "free", "pick", "grab", "walkTo", "NOP", "block","(", ")", "define", "blocked?", "facing?", "if", "not", "can", "left", "right", "back", "N", "E", "W", "S"]
+comandos = ["walk", "rotate", "drop", "free", "pick", "grab", "walkTo", "NOP", "block", "define", "if"]
 extra = {}
 def parser():
     file = open("input.txt", "r")
@@ -54,7 +55,6 @@ def checker(f:str) -> bool:
 def comparador(listaPal:list, alfabeto:list)->bool:
     for i in range(len(listaPal)):
         if listaPal[i] not in alfabeto:
-            print(listaPal[i])
             return False
         else:
             definirVarFun(listaPal, i)
@@ -68,7 +68,8 @@ def comparador(listaPal:list, alfabeto:list)->bool:
             caminarA = compararWalkTo(listaPal, i)
             nada = compararNOP(listaPal, i)
             compararif = compareIf(listaPal, i)
-            if caminar is False or rotar is False or mirar is False or soltar is False or liberar is False or recoger is False or agarrar is False or caminarA is False or nada is False or compararif is False:
+            bloque = compararBlock(listaPal, i)
+            if caminar is False or rotar is False or mirar is False or soltar is False or liberar is False or recoger is False or agarrar is False or caminarA is False or nada is False or compararif is False or bloque is False:
                 return False
             
             
@@ -85,6 +86,7 @@ def definirVarFun(listaPal:list, i:int):
             alfabeto.append(listaPal[i+2])
     elif listaPal[i] == "define" and listaPal[i+2] == "(":
         alfabeto.append(listaPal[i+1])
+        comandos.append(listaPal[i+1])
         param = []
         n = 3
         while True:
@@ -312,6 +314,14 @@ def ifnot(listaPal:list, i:int)->bool:
             return False
         else:
             return True
+    else:
+        return True
+
+def compararBlock(listaPal:list, i:int)->bool:
+    if listaPal[i] == "block" and listaPal[i-1] != "(" or listaPal[i+1] == "(":
+        return False
+    elif listaPal[i] == "block" and listaPal[i+2] not in comandos:
+        return False
     else:
         return True
 
