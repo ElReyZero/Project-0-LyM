@@ -1,4 +1,4 @@
-alfabeto = ["walk", "rotate", "drop", "free", "pick", "grab", "walkTo", "NOP", "block","(", ")", "define", "blocked?", "facing", "if", "not", "can", "left", "right", "back", "N", "E", "W", "S"]
+alfabeto = ["walk", "rotate", "drop", "free", "pick", "grab", "walkTo", "NOP", "block","(", ")", "define", "blocked?", "facing?", "if", "not", "can", "left", "right", "back", "N", "E", "W", "S"]
 extra = {}
 def parser():
     file = open("input.txt", "r")
@@ -7,7 +7,7 @@ def parser():
     valor = checker(f)
 
     if valor is False:
-        print("Ha ocurrido un error en la comprobación del código")
+        print("Ha ocurrido un error con la comprobación del código [Syntax Error].")
     else:
         print("El programa no presentó errores.")
 
@@ -67,7 +67,8 @@ def comparador(listaPal:list, alfabeto:list)->bool:
             agarrar = compararGrab(listaPal, i)
             caminarA = compararWalkTo(listaPal, i)
             nada = compararNOP(listaPal, i)
-            if caminar is False or rotar is False or mirar is False or soltar is False or liberar is False or recoger is False or agarrar is False or caminarA is False or nada is False:
+            compararif = compareIf(listaPal, i)
+            if caminar is False or rotar is False or mirar is False or soltar is False or liberar is False or recoger is False or agarrar is False or caminarA is False or nada is False or compararif is False:
                 return False
             
             
@@ -92,6 +93,11 @@ def definirVarFun(listaPal:list, i:int):
             param.append(listaPal[i+n])
             n += 1  
         extra[listaPal[i+1]] = param
+        if listaPal[i+n+1] != "(" or listaPal[i+n+1] != "block":
+            return False
+        else:
+            return True
+
 
 def compararWalk(listaPal:list, i:int)-> bool:
     if listaPal[i] == "walk" and listaPal[i-1] != "(":
@@ -257,4 +263,56 @@ def compararNOP(listaPal:list, i:int)->bool:
         return False
     else:
         return True
+
+def compareIf(listaPal:list, i:int)->bool:
+    parameters = ["blocked?", "not", "facing?", "can"]
+    if listaPal[i] == "if" and (listaPal[i-1] != "("or listaPal[i+1] != "("):
+        return False
+    elif listaPal[i] == "if" and listaPal[i+2] not in parameters:
+        return False
+    elif listaPal[i] == "if" and listaPal[i+2] == "facing?":
+        paramFacing = ["N", "E", "W", "S"]
+        if listaPal[i+3] not in paramFacing:
+            return False
+    elif listaPal[i] == "if" and listaPal[i+2] == "can":
+        paramCan = ["grab", "drop", "free", "pick"]
+        if listaPal[i+3] not in paramCan:
+            return False
+    elif listaPal[i] == "if" and listaPal[i+2] == "not" and listaPal[i+4] not in parameters:
+        return False
+    elif listaPal[i] == "if" and listaPal[i+2] == "not":
+        res = ifnot(listaPal, i+4)
+        if res is False:
+            return False
+        else:
+            return True
+    else:
+        return True
+
+
+def ifnot(listaPal:list, i:int)->bool:
+    parameters = ["blocked?", "not", "facing?", "can"]
+    if listaPal[i] == "not" and (listaPal[i-1] != "("or listaPal[i+1] != "("):
+        return False
+    elif listaPal[i] == "not" and listaPal[i+2] not in parameters:
+        return False
+    elif listaPal[i] == "not" and listaPal[i+2] == "facing?":
+        paramFacing = ["N", "E", "W", "S"]
+        if listaPal[i+3] not in paramFacing:
+            return False
+    elif listaPal[i] == "not" and listaPal[i+2] == "can":
+        paramCan = ["grab", "drop", "free", "pick"]
+        if listaPal[i+3] not in paramCan:
+            return False
+    elif listaPal[i] == "not" and listaPal[i+2] == "not" and listaPal[i+3] not in parameters:
+        return False
+    elif listaPal[i] == "not" and listaPal[i+2] == "not":
+        res = ifnot(listaPal, i+4)
+        if res is False:
+            return False
+        else:
+            return True
+    else:
+        return True
+
 parser()
