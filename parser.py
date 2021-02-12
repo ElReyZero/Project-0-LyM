@@ -70,6 +70,9 @@ def comparador(listaPal:list, alfabeto:list)->bool:
             compararif = compareIf(listaPal, i)
             bloque = compararBlock(listaPal, i)
             if caminar is False or rotar is False or mirar is False or soltar is False or liberar is False or recoger is False or agarrar is False or caminarA is False or nada is False or compararif is False or bloque is False:
+                print(i)
+                print(listaPal[i])
+                print(bloque)
                 return False
             
             
@@ -318,7 +321,7 @@ def ifnot(listaPal:list, i:int)->bool:
         return True
 
 def compararBlock(listaPal:list, i:int)->bool:
-    if listaPal[i] == "block" and listaPal[i-1] != "(" or listaPal[i+1] == "(":
+    if listaPal[i] == "block" and (listaPal[i-1] != "(" or listaPal[i+1] != "("):
         return False
     elif listaPal[i] == "block" and listaPal[i+2] not in comandos:
         return False
