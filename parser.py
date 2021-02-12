@@ -70,9 +70,7 @@ def comparador(listaPal:list, alfabeto:list)->bool:
             compararif = compareIf(listaPal, i)
             bloque = compararBlock(listaPal, i)
             if caminar is False or rotar is False or mirar is False or soltar is False or liberar is False or recoger is False or agarrar is False or caminarA is False or nada is False or compararif is False or bloque is False:
-                print(i)
-                print(listaPal[i])
-                print(bloque)
+                print("Ocurrió un error con la palabra {0} en la posición {1} del código. (no contar espacios dentro de la posición)".format(listaPal[i], i+1))
                 return False
             
             
